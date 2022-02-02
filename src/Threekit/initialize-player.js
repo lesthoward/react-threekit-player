@@ -2,9 +2,9 @@ import { useCallback, useState } from "react";
 
 export function usePlayer(initParams, callback) {
   const [isLoaded, setIsLoaded] = useState(false);
-  let player
   const playerRef = useCallback(
     async (el) => {
+      console.log("initParams", initParams);
       if (!el || isLoaded) return;
       setIsLoaded(true);
       const player = await window.threekitPlayer({   
