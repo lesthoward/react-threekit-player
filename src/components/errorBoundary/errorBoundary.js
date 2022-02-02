@@ -11,17 +11,12 @@ export default class ErrorBoundary extends Component{
         }
     }
     static getDerivedStateFromError(error){
-        debugger
         return {
             hasError: true,
             errorMessage: error ? error.message : "" 
         }
     }
-    componentDidUpdate(){
-        debugger
-    }
     componentDidCatch(error, errorInfo){
-        debugger
         console.log("error", error, errorInfo)
     }
     

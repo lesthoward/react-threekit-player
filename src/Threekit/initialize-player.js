@@ -4,13 +4,12 @@ export function usePlayer(initParams, callback) {
   const [isLoaded, setIsLoaded] = useState(false);
   const playerRef = useCallback(
     async (el) => {
-      console.log("initParams", initParams);
       if (!el || isLoaded) return;
       setIsLoaded(true);
       const player = await window.threekitPlayer({   
         assetId: initParams.assetId,
         el: el,
-        authToken: initParams.authToken,
+        //authToken: initParams.authToken,
         orgId: initParams.orgId,
         showAR: initParams.showAR,
         showConfigurator: initParams.showConfigurator,
@@ -22,11 +21,11 @@ export function usePlayer(initParams, callback) {
         await api.when("loaded");
         window.century = api;
        } )
-       .catch((error) => {console.error(error)})
-      window.player = player;
-      if(!player){
-        throw new Error('Threekit sources load fail, Error 401');
-      }
+       .catch((error) => {console.error(error); throw new Error('Threekit sources load fail, Error 401');})
+        window.player = player;
+      // if(!player){
+      //   throw new Error('Threekit sources load fail, Error 401');
+      // }
       if (callback) callback(player);
     },
     [callback, initParams, isLoaded]

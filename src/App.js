@@ -5,13 +5,10 @@ import { usePlayer } from "./Threekit";
 function App() {
 
   //throw this error will render error boundary
-  const REACT_APP_THREEKIT_ASSET_ID_TOKEN = "bd4f1238-03e1-48cb-b873-f94875ae4d02";
-  const REACT_APP_THREEKIT_ORG_TOKEN = "266241ca-1556-47f5-a3f3-0019e10eab40";
-  console.log("process", process.env);
   const playerRef = usePlayer({
-    assetId: REACT_APP_THREEKIT_ASSET_ID_TOKEN,
+    assetId: process.env.REACT_APP_THREEKIT_ASSET_ID_TOKEN,
     authToken: process.env.REACT_APP_THREEKIT_AUTH_TOKEN,
-    orgId: REACT_APP_THREEKIT_ORG_TOKEN,
+    orgId: process.env.REACT_APP_THREEKIT_ORG_TOKEN,
     showAR: true,
     showConfigurator: true,
   });
