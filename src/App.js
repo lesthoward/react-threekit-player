@@ -1,23 +1,22 @@
-import React from "react";
+import React, {useContext, useEffect} from 'react';
 import "./App.css";
 import { usePlayer } from "./Threekit";
+import { AppContext } from "./provider/provider.js"
 
 function App() {
-
-  //throw this error will render error boundary
+  const {state, setState} = useContext(AppContext);
   const playerRef = usePlayer({
-    assetId: process.env.REACT_APP_THREEKIT_ASSET_ID_TOKEN,
-    authToken: process.env.REACT_APP_THREEKIT_AUTH_TOKEN,
-    orgId: process.env.REACT_APP_THREEKIT_ORG_TOKEN,
+    assetId: process.env.NODE_ENV === "development" ? process.env.REACT_APP_THREEKIT_ASSET_ID_TOKEN : "f17593e4-7497-4749-8ac3-a04cacec1934",
+    authToken: process.env.NODE_ENV === "development" ? process.env.REACT_APP_THREEKIT_AUTH_TOKEN : "2a45c4c4-1597-4fbe-8016-ea0bf04f0bd1",
+    orgId: process.env.NODE_ENV === "development" ? process.env.REACT_APP_THREEKIT_ORG_TOKEN : "266241ca-1556-47f5-a3f3-0019e10eab40",
     showAR: true,
     showConfigurator: true,
   });
   return (
-    <div className="App">
+    <div className="app">
       <Header />
-
-      <div className="App-main">
-        <div className="player-el" ref={playerRef} />
+      <div className="app--main">
+        <div className="app--player" ref={playerRef} />
       </div>
     </div>
   );
@@ -25,35 +24,8 @@ function App() {
 
 function Header() {
   return (
-    <div className="App-header">
-        <div>
-          <a
-            href="https://www.threekit.com/"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <img
-              alt="logo"
-              className="App-logo"
-              src="https://i.imgur.com/zsXaU2U.png"
-            />
-          </a>
-        </div>
-        <a
-          href="https://github.com/Threekit/Create-React-App"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <img alt="docs" src="https://i.imgur.com/v6VIy1K.png" width="25px" />
-        </a>
-        <a
-          href="https://docs.threekit.com/docs/en/player-api"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <img alt="docs" src="https://i.imgur.com/jjoaLNA.png" width="25px" />
-        </a>
-        <button ></button>
+    <div className="app--header">
+
     </div>
   );
 }

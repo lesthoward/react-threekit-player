@@ -12,7 +12,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+#root {
+  width: 100%;
+}
+body, #root, #root .provider, #root .provider .app--main, #root .provider .app--main .app--player, #root .provider .app--main .app--player .threekit , #root .provider .app--main .app--player .threekit .holder___3ugrT.mobile___jM1jy {
+  height: 520px !important;
+}
 
-body, #root {
-  min-height: 100vh;
+.threekit .player___25Zg2.mobile___jM1jy{
+  flex: 0 0 100%;
 }

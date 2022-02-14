@@ -9,7 +9,7 @@ export function usePlayer(initParams, callback) {
       const player = await window.threekitPlayer({   
         assetId: initParams.assetId,
         el: el,
-        //authToken: initParams.authToken,
+        authToken: initParams.authToken,
         orgId: initParams.orgId,
         showAR: initParams.showAR,
         showConfigurator: initParams.showConfigurator,
@@ -20,7 +20,8 @@ export function usePlayer(initParams, callback) {
         api.enableApi("store");
         await api.when("loaded");
         window.century = api;
-       } )
+        window.century.configurator = await api.getConfigurator();
+       })
        .catch((error) => {console.error(error); throw new Error('Threekit sources load fail, Error 401');})
         window.player = player;
       // if(!player){
@@ -30,5 +31,22 @@ export function usePlayer(initParams, callback) {
     },
     [callback, initParams, isLoaded]
   );
+  const threekitImput = document.querySelector(".threekit--input");
+  const threekitImputFile = document.querySelector(".threekit--input__file");
+
+  if(threekitImput && threekitImputFile){
+
+    threekitImput.addEventListener("change", function(e){
+      window.century.configurator.setConfiguration({"Add Text": e.target.value});
+      document.querySelector(".threekit--input").submit();
+    });
+    threekitImputFile.addEventListener("change", function(e){
+      const [file] = e.target.files;
+
+      console.log("file", URL.createObjectURL(file))
+      debugger
+      window.century.configurator.setConfiguration({"Upload Logo": URL.createObjectURL(file)});
+    })
+  }
   return playerRef;
 }

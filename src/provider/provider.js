@@ -1,9 +1,11 @@
 import React, {createContext, useState} from "react";
 
 const Provider = (props) => {
-    const [state, setState] = useState({});
+    const [state, setState] = useState({
+        threekitApi: {}
+    });
     return (
-        <div>
+        <div className="provider">
             <AppContext.Provider value={{state, setState}}>
                 {props.children}
             </AppContext.Provider>
