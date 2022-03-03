@@ -1,6 +1,16 @@
 import { useCallback, useState } from "react";
 
 export function usePlayer(initParams, callback) {
+  async function main() {
+    const file = document.querySelector('.threekit--input__file').files[0];
+    return await toBase64(file)
+ }
+ const toBase64 = file => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = error => reject(error);
+});
   const [isLoaded, setIsLoaded] = useState(false);
   const playerRef = useCallback(
     async (el) => {
@@ -12,7 +22,7 @@ export function usePlayer(initParams, callback) {
         authToken: initParams.authToken,
         orgId: initParams.orgId,
         showAR: initParams.showAR,
-        showConfigurator: initParams.showConfigurator,
+        // showConfigurator: initParams.showConfigurator,
        })
        .then(async(api) => {
         api.enableApi("configurator");
@@ -40,12 +50,11 @@ export function usePlayer(initParams, callback) {
       window.century.configurator.setConfiguration({"Add Text": e.target.value});
       document.querySelector(".threekit--input").submit();
     });
-    threekitImputFile.addEventListener("change", function(e){
-      const [file] = e.target.files;
-
-      console.log("file", URL.createObjectURL(file))
+    threekitImputFile.addEventListener("change", async function(e){
       debugger
-      window.century.configurator.setConfiguration({"Upload Logo": URL.createObjectURL(file)});
+      let image = await main()
+      console.log("base64", image)
+      window.century.configurator.setConfiguration({"Upload Logo": image});
     })
   }
   return playerRef;
