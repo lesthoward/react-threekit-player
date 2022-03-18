@@ -1,15 +1,19 @@
 import React from "react";
-import { Player, Share, ThreekitProvider } from "@threekit-tools/treble";
+import { ErrorBoundary } from "react-error-boundary";
 
-const threekitEnv: string = "preview";
+import GlobalStyle from "./assets/styles/global";
+
+import ThreekitPlayer from "./components/ThreekitPlayer";
+import ErrorFallback from "./components/ErrorFallback";
 
 function App() {
   return (
-    <ThreekitProvider threekitEnv={threekitEnv}>
-      <Player>
-        <Player.TopRightWidgets>{/* <Share /> */}</Player.TopRightWidgets>
-      </Player>
-    </ThreekitProvider>
+    <>
+      <GlobalStyle />
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <ThreekitPlayer />
+      </ErrorBoundary>
+    </>
   );
 }
 
