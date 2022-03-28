@@ -1,11 +1,13 @@
-import React from "react";
-import { Player, ThreekitProvider } from "@threekit-tools/treble";
+import { ThreekitProvider } from "@threekit-tools/treble";
 import { IProject } from "@threekit-tools/treble/dist/threekit";
+import CustomPlayer from './CustomPlayer';
 
 const threekitEnv: string | undefined = process.env.REACT_APP_THREEKIT_ENV;
 const tkAsset: string | undefined = process.env.REACT_APP_THREEKIT_ASSETKEY;
 
 const ThreekitPlayer = () => {
+  
+
   if (!threekitEnv) {
     throw new Error("Threekit Env is missing");
   }
@@ -37,14 +39,15 @@ const ThreekitPlayer = () => {
     },
   };
 
+
+
   return (
     <ThreekitProvider
       project={assetId ? project : undefined}
       threekitEnv={threekitEnv}
     >
-      <Player>
-        <Player.TopRightWidgets>{/* <Share /> */}</Player.TopRightWidgets>
-      </Player>
+      <CustomPlayer/>
+      
     </ThreekitProvider>
   );
 };
