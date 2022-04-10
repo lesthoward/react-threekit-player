@@ -1,11 +1,18 @@
 import React from "react";
-import { Button, DownloadIcon } from "@threekit-tools/treble/dist";
+import { Button, DownloadIcon, message } from "@threekit-tools/treble/dist";
 import { useName, useSnapshot } from "@threekit-tools/treble";
+import Snapshots from "@threekit-tools/treble/dist/Treble/Snapshots";
+import {
+  dataURItoBlob,
+  downloadSnapshot,
+} from "@threekit-tools/treble/dist/utils";
 import watermark from "watermarkjs";
 
+import { SNAPSHOT_DEFAULT_FORMAT } from "../common/constants";
+
 const SnapshotDownloader = () => {
-  const productName = useName();
-  const takeSnapshots = useSnapshot(undefined, {
+  const prodName: string | undefined = useName();
+  const takeSnapshot = useSnapshot("Back Camera", {
     output: "blob",
     filename: "snapshot",
   });
@@ -51,33 +58,32 @@ const SnapshotDownloader = () => {
     });
   };
 
-  const batchWatermark = (snapshot: Blob, wmImage: string) => {
+  const batchWatermark = (
+    snapshot: Blob,
+    wmImage: string,
+    callbackFn: (img: HTMLImageElement) => void
+  ) => {
     applyWatermark(
       [snapshot, wmImage],
       watermark.image.upperLeft(0.5),
-      (img: any) => {
+      (img: HTMLImageElement) => {
         applyWatermark(
           [img, wmImage],
           watermark.image.lowerLeft(0.5),
-          (img: any) => {
+          (img: HTMLImageElement) => {
             applyWatermark(
               [img, wmImage],
               watermark.image.upperRight(0.5),
-              (img: any) => {
+              (img: HTMLImageElement) => {
                 applyWatermark(
                   [img, wmImage],
                   watermark.image.lowerRight(0.5),
-                  (img: any) => {
+                  (img: HTMLImageElement) => {
                     applyWatermark(
                       [img, wmImage],
                       watermark.image.center(0.5),
                       (img: HTMLImageElement) => {
-                        const tempLink = document.createElement("a");
-                        tempLink.href = img.src;
-                        tempLink.download = `Snapshot.png`;
-                        document.body.appendChild(tempLink);
-                        tempLink.click();
-                        document.body.removeChild(tempLink);
+                        callbackFn(img);
                       }
                     );
                   }
@@ -95,15 +101,25 @@ const SnapshotDownloader = () => {
       process.env.REACT_APP_WATERMARK_URL;
 
     if (watermarkUrl) {
-      if (takeSnapshots) {
-        takeSnapshots().then((result) => {
-          if (result && result.length > 0) {
-            var snapshot = result[0];
-            if (snapshot instanceof Blob) {
-              batchWatermark(snapshot, watermarkUrl);
-            }
-          }
-        });
+      if (takeSnapshot) {
+        const snapshotCls = new Snapshots();
+        message.info("Downloading Image", DownloadIcon.iconName);
+        snapshotCls
+          .getSnapshot({
+            format: SNAPSHOT_DEFAULT_FORMAT,
+            size: { width: 1080, height: 1080 },
+          })
+          .then((result: string) => {
+            const snpBlob = dataURItoBlob(result);
+            batchWatermark(snpBlob, watermarkUrl, (img) => {
+              downloadSnapshot(
+                img.src,
+                `${
+                  prodName ? prodName + "-" : ""
+                }snapshot.${SNAPSHOT_DEFAULT_FORMAT}`
+              );
+            });
+          });
       }
     } else {
       console.warn("No image url for watermark provided!");
