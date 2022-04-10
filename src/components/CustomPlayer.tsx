@@ -24,10 +24,7 @@ const CustomPlayer = () => {
     ? !!localStorage.getItem(snapshotButtonKey)
     : false;
 
-  const takeSnapshots = () => {
-    const exclusionCams: string[] = ["Persp"];
-    const attrName: string = "Camera";
-
+  const takeSnapshots = (attrName: string, exclusionCams: string[] = []) => {
     const attr: IThreekitDisplayAttribute | undefined =
       window.threekit.configurator.getDisplayAttributes().find(function (el) {
         return el.name === attrName;
