@@ -1,6 +1,10 @@
 import React from "react";
 import { Button, DownloadIcon, message } from "@threekit-tools/treble/dist";
-import { useName, useSnapshot } from "@threekit-tools/treble";
+import {
+  useName,
+  useSnapshot,
+  useThreekitInitStatus,
+} from "@threekit-tools/treble";
 import Snapshots from "@threekit-tools/treble/dist/Treble/Snapshots";
 import {
   dataURItoBlob,
@@ -11,11 +15,20 @@ import watermark from "watermarkjs";
 import { SNAPSHOT_DEFAULT_FORMAT } from "../common/constants";
 
 const SnapshotDownloader = () => {
+  const hasLoaded: boolean = useThreekitInitStatus();
   const prodName: string | undefined = useName();
   const takeSnapshot = useSnapshot("Back Camera", {
     output: "blob",
     filename: "snapshot",
   });
+
+  const wmPosition = {
+    upperLeft: watermark.image.upperLeft(0.5),
+    lowerLeft: watermark.image.lowerLeft(0.5),
+    upperRight: watermark.image.upperRight(0.5),
+    lowerRight: watermark.image.lowerRight(0.5),
+    center: watermark.image.center(0.5),
+  };
 
   const applyWatermark = (
     resources: any[],
@@ -29,71 +42,35 @@ const SnapshotDownloader = () => {
       .then(callbackFn);
   };
 
-  const createWatermark = (snapshot: Blob, wmImage: HTMLImageElement) => {
-    watermark([snapshot, wmImage]) //watermarkUrl])
-      // .image(watermark.image.upperLeft(0.5))
-      // .then((img: any) => {});
-      // .image(watermark.image.upperRight(0.5))
-      // .image(watermark.image.lowerLeft(0.5))
-      // .image(watermark.image.lowerRight(0.5))
-      .image(watermark.image.center(0.5))
-      .then((img: any) => {
-        console.log(img);
-        var elem = document.querySelector(".threekit");
-        if (elem) {
-          elem.appendChild(img);
-        }
-      });
-  };
-
-  const fetchImage = (url: string, snapshot: Blob) => {
-    fetch(url).then((imageResult) => {
-      imageResult.blob().then((imageBlob) => {
-        var watermarkImg = new Image();
-        watermarkImg.src = URL.createObjectURL(imageBlob);
-        watermarkImg.crossOrigin = "anonymous";
-
-        createWatermark(snapshot, watermarkImg);
-      });
-    });
-  };
-
   const batchWatermark = (
     snapshot: Blob,
     wmImage: string,
+    wmPosition: any[],
     callbackFn: (img: HTMLImageElement) => void
   ) => {
-    applyWatermark(
-      [snapshot, wmImage],
-      watermark.image.upperLeft(0.5),
-      (img: HTMLImageElement) => {
+    const applyWatermarkRcr = (
+      snapshot: Blob | HTMLImageElement,
+      wmImage: string,
+      wmPosition: any[],
+      callbackFn: (img: HTMLImageElement) => void
+    ) => {
+      if (wmPosition.length > 0) {
         applyWatermark(
-          [img, wmImage],
-          watermark.image.lowerLeft(0.5),
+          [snapshot, wmImage],
+          wmPosition[0],
           (img: HTMLImageElement) => {
-            applyWatermark(
-              [img, wmImage],
-              watermark.image.upperRight(0.5),
-              (img: HTMLImageElement) => {
-                applyWatermark(
-                  [img, wmImage],
-                  watermark.image.lowerRight(0.5),
-                  (img: HTMLImageElement) => {
-                    applyWatermark(
-                      [img, wmImage],
-                      watermark.image.center(0.5),
-                      (img: HTMLImageElement) => {
-                        callbackFn(img);
-                      }
-                    );
-                  }
-                );
-              }
-            );
+            wmPosition.shift();
+            if (wmPosition.length > 0) {
+              applyWatermarkRcr(img, wmImage, wmPosition, callbackFn);
+            } else {
+              callbackFn(img);
+            }
           }
         );
       }
-    );
+    };
+
+    applyWatermarkRcr(snapshot, wmImage, wmPosition, callbackFn);
   };
 
   const handleDownload = () => {
@@ -111,20 +88,35 @@ const SnapshotDownloader = () => {
           })
           .then((result: string) => {
             const snpBlob = dataURItoBlob(result);
-            batchWatermark(snpBlob, watermarkUrl, (img) => {
-              downloadSnapshot(
-                img.src,
-                `${
-                  prodName ? prodName + "-" : ""
-                }snapshot.${SNAPSHOT_DEFAULT_FORMAT}`
-              );
-            });
+            batchWatermark(
+              snpBlob,
+              watermarkUrl,
+              [
+                wmPosition.upperLeft,
+                wmPosition.upperRight,
+                wmPosition.lowerRight,
+                wmPosition.lowerLeft,
+                wmPosition.center,
+              ],
+              (img) => {
+                downloadSnapshot(
+                  img.src,
+                  `${
+                    prodName ? prodName + "-" : ""
+                  }snapshot.${SNAPSHOT_DEFAULT_FORMAT}`
+                );
+              }
+            );
           });
       }
     } else {
       console.warn("No image url for watermark provided!");
     }
   };
+
+  if (!hasLoaded) {
+    return <></>;
+  }
 
   return (
     <Button
