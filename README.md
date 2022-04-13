@@ -2,6 +2,30 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Before running the App
+
+### Env Variables
+Create a new file in the root with the name `.env`, and copy the content from `.env.example`.\
+Add the values for `REACT_APP_THREEKIT_PREVIEW_ORG_ID`, `REACT_APP_THREEKIT_PREVIEW_PUBLIC_TOKEN`, `REACT_APP_THREEKIT_PREVIEW_ASSET_ID`.\
+
+### Local storage
+To load an specific product you must to add in localStorage an especific key with the assetId from threekit:
+``` javascript
+localStorage.setItem("tkAsset", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+```
+If you update the env var `REACT_APP_THREEKIT_ASSETKEY`, make sure you are using it in the script above.
+
+To load the snapshot button over the player, set the localStorage key described in the env var `REACT_APP_SNAPSHOT_BUTTONKEY`:
+``` javascript
+localStorage.setItem("snpBtn", 1)
+```
+
+### Ready for deploy
+
+Add the correct values in `REACT_APP_THREEKIT_ADMINFTS_ORG_ID`, `REACT_APP_THREEKIT_ADMINFTS_PUBLIC_TOKEN`, `REACT_APP_THREEKIT_ADMINFTS_ASSET_ID`.
+
+Update the env var `REACT_APP_THREEKIT_ENV` with `admin-fts`.
+
 ## Available Scripts
 ### Run
 
