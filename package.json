@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:embed": "rm -rf embed/* && parcel build src/index.tsx --dist-dir embed/ --no-source-maps && mv embed/index.js embed/idoa-threekit-player.js",
+    "build:embed": "rm -rf embed/* && parcel build src/index.tsx --dist-dir embed/ --no-source-maps && mv embed/index.js embed/S360-threekit-player.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
