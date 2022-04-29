@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Century Martial Arts</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,regular,500,600,700,800,300italic,italic,500italic,600italic,700italic,800italic"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Bebas+Neue:regular"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Open Sans", Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Bebas Neue", "Open Sans", Arial, Helvetica, sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- container -->
+    <div
+      class="container"
+      style="
+        background-color: #fff;
+        width: 8.5in;
+        height: 11in;
+        margin: auto;
+        overflow: hidden;
+      "
+    >
+      <div style="margin: 25px 35px 0 35px">
+        <!-- header -->
+        <div
+          class="header"
+          style="
+            height: 170px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
+          <!-- header__logo -->
+          <div
+            class="header__logo"
+            style="
+              background-color: #f6f6f6;
+              max-height: 170px;
+              margin-right: 16px;
+              overflow: hidden;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <img
+              style="width: 200px"
+              src="{{imageSrcUrl}}/logo.jpeg"
+              alt="Logo"
+            />
+          </div>
+          <!-- header__info -->
+          <div
+            class="header__info"
+            style="
+              flex: 1;
+              border: 3px solid #000;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              padding: 8px 14px;
+              gap: 5px;
+              font-size: 12px;
+            "
+          >
+            <p>
+              <span style="font-size: 14px; font-weight: bold">
+                Product Name: {{productData.title}}
+              </span>
+              <span>
+                {{#if productData.sku}} (sku: {{productData.sku}}) {{/if}}
+              </span>
+            </p>
+            {{#with customerData}}
+            <p>
+              <span style="font-weight: bold">Contact Name:</span>
+              {{contactName}}
+            </p>
+            <p>
+              <span style="font-weight: bold">Company Name:</span>
+              {{companyName}}
+            </p>
+            <div style="display: flex">
+              <p style="flex-grow: 2">
+                <span style="font-weight: bold">Phone Number:</span>
+                {{phone}}
+              </p>
+              <p style="flex-grow: 1">
+                <span style="font-weight: bold">Zip Code:</span> {{zipCode}}
+              </p>
+            </div>
+            <div style="display: flex">
+              <p style="flex-grow: 2">
+                <span style="font-weight: bold">Email:</span>
+                {{email}}
+              </p>
+              <p style="flex-grow: 1">
+                <span style="font-weight: bold">State:</span> {{state}}
+              </p>
+            </div>
+            <p
+              style="
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-wrap: break-word;
+              "
+            >
+              <span style="font-weight: bold">Address:</span> {{address}}
+            </p>
+            {{/with}}
+          </div>
+          <!-- header__info -->
+        </div>
+        <!-- body -->
+        <div
+          class="body"
+          style="
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            row-gap: 15px;
+          "
+        >
+          {{#each snapshots}}
+          <!-- body__placeholder -->
+          <div
+            class="body__placeholder"
+            style="
+              border: 3px solid #000;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              width: calc(100% / 3.1);
+            "
+          >
+            <div
+              class="body__image"
+              style="height: 200px; width: 200px; margin: auto"
+            >
+              {{#if base64File}}
+              <img
+                src="data:image/png;base64,{{base64File}}"
+                alt="{{name}}"
+                style="object-fit: contain; height: 100%; width: 100%"
+              />
+              {{else}}
+              <img
+                src="{{../imageSrcUrl}}/placeholder.png"
+                alt="placeholder"
+                style="object-fit: contain; height: 100%; width: 100%"
+              />
+              {{/if}}
+            </div>
+            <div
+              class="body__title"
+              style="
+                text-transform: uppercase;
+                font-weight: bold;
+                font-size: 12px;
+                padding: 10px;
+                border-top: 3px solid #000;
+              "
+            >
+              {{#if name}} {{name}} {{else}} --- {{/if}}
+            </div>
+          </div>
+          {{/each}}
+        </div>
+        <!-- body -->
+      </div>
+
+      <!-- footer -->
+      <div
+        class="footer"
+        style="display: flex; margin-top: 16px; min-height: 265px"
+      >
+        <div
+          class="footer__product"
+          style="flex: 2 0 50%; display: flex; flex-direction: column"
+        >
+          <div
+            style="
+              background-color: #000;
+              padding: 8px 35px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <h2
+              style="
+                display: block;
+                text-transform: uppercase;
+                color: #fff;
+                font-size: 20px;
+              "
+            >
+              Customizations
+            </h2>
+            <div style="font-size: 14px; color: #fff">
+              <span style="font-weight: bold; margin-right: 3px">Qty:</span
+              >{{productData.quantity}}
+            </div>
+          </div>
+          <!-- footer__wrapper -->
+          <div
+            class="footer__wrapper"
+            style="
+              padding: 5px 5px 5px 35px;
+              background-color: #f2f2f2;
+              font-size: 11px;
+              flex: 1;
+            "
+          >
+            {{#with customizedData}}
+            <div style="width: 100%; margin-bottom: 5px; display: flex">
+              {{#each shopifyVariants}}
+              <div>
+                <span style="font-weight: bold; margin-right: 3px">
+                  {{field}}: </span
+                ><span>{{value}}</span>
+              </div>
+              {{#if @last}} {{else}}
+              <span style="font-weight: bold; margin: 0 3px">|</span>
+              {{/if}} {{/each}}
+            </div>
+            <div style="width: 100%; display: flex">
+              {{#each threekitVariants}}
+              <div
+                style="min-width: {{#if image}}150px{{else}}90px{{/if}}; margin-right: 10px"
+              >
+                <p style="font-weight: bold; margin-bottom: 5px">{{title}}:</p>
+                {{#if image}}
+                <p style="font-weight: bold">Image</p>
+                <ul
+                  style="
+                    margin: 0;
+                    padding-inline-start: 20px;
+                    margin-bottom: 5px;
+                  "
+                >
+                  {{#each image}}
+                  <li>
+                    <span style="margin-right: 3px">{{field}}:</span
+                    ><span>{{value}}</span>
+                  </li>
+                  {{/each}}
+                </ul>
+                <p style="font-weight: bold">Text</p>
+                <ul style="margin: 0; padding-inline-start: 20px">
+                  {{#each text}}
+                  <li>
+                    <span style="margin-right: 3px">{{field}}:</span
+                    ><span>{{value}}</span>
+                  </li>
+                  {{/each}}
+                </ul>
+                {{else}} {{#each text}}
+                <p style="font-weight: bold">{{field}}</p>
+                <ul style="margin: 0; padding-inline-start: 20px">
+                  <li>
+                    <span style="margin-right: 3px">{{value}}</span>
+                  </li>
+                </ul>
+                {{/each}} {{/if}}
+              </div>
+              {{/each}}
+            </div>
+            {{/with}}
+          </div>
+        </div>
+        <!-- footer__disclaimer -->
+        <div
+          class="footer__disclaimer"
+          style="
+            height: 265;
+            flex: 0 1 50%;
+            padding: 40px 35px 0 25px;
+            background-color: #c2c2c2;
+            font-size: 11px;
+            overflow: hidden;
+          "
+        >
+          <p style="margin-bottom: 15px">
+            <b>
+              Images only represent placement of artwork. (Not relative size).
+              The color may vary depending on desktop printer or monitor. This
+              proof is not final, as there may be corrections which our team
+              will verify within 2 business days.
+            </b>
+          </p>
+        </div>
+        <!-- footer__disclaimer -->
+      </div>
+      <!-- footer -->
+      <div
+        class="footer__notes"
+        style="
+          display: flex;
+          width: 100%;
+          background-color: #000;
+          font-size: 12px;
+          padding: 12px 35px;
+          color: #fff;
+          height: 60px;
+        "
+      >
+        <div>
+          <p style="margin-right: 5px">
+            <span style="font-weight: bold">Note:</span>
+          </p>
+        </div>
+        <ul
+          style="
+            padding-inline-start: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+          "
+        >
+          <li>
+            {{#if customerData.notes}} {{customerData.notes}} {{else}} ---
+            {{/if}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- container -->
+  </body>
+</html>
