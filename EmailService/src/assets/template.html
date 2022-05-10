@@ -147,11 +147,11 @@
         <div
           class="body"
           style="
-            margin-top: 15px;
+            margin-top: 10px;
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            row-gap: 15px;
+            row-gap: 10px;
           "
         >
           {{#each snapshots}}
@@ -205,11 +205,11 @@
       <!-- footer -->
       <div
         class="footer"
-        style="display: flex; margin-top: 16px; min-height: 265px"
+        style="display: flex; margin-top: 10px; min-height: 280px"
       >
         <div
           class="footer__product"
-          style="flex: 2 0 50%; display: flex; flex-direction: column"
+          style="flex: 2 0 55%; display: flex; flex-direction: column"
         >
           <div
             style="
@@ -239,14 +239,14 @@
           <div
             class="footer__wrapper"
             style="
-              padding: 5px 5px 5px 35px;
+              padding: 3px 5px 5px 35px;
               background-color: #f2f2f2;
               font-size: 11px;
               flex: 1;
             "
           >
             {{#with customizedData}}
-            <div style="width: 100%; margin-bottom: 5px; display: flex">
+            <div style="width: 100%; margin-bottom: 3px; display: flex">
               {{#each shopifyVariants}}
               <div>
                 <span style="font-weight: bold; margin-right: 3px">
@@ -262,14 +262,15 @@
               <div
                 style="min-width: {{#if image}}150px{{else}}90px{{/if}}; margin-right: 10px"
               >
-                <p style="font-weight: bold; margin-bottom: 5px">{{title}}:</p>
+                <p style="font-weight: bold;">{{title}}:</p>
                 {{#if image}}
                 <p style="font-weight: bold">Image</p>
                 <ul
                   style="
                     margin: 0;
                     padding-inline-start: 20px;
-                    margin-bottom: 5px;
+                    margin-bottom: 3px;
+                    font-size: 10px;
                   "
                 >
                   {{#each image}}
@@ -280,7 +281,9 @@
                   {{/each}}
                 </ul>
                 <p style="font-weight: bold">Text</p>
-                <ul style="margin: 0; padding-inline-start: 20px">
+                <ul
+                  style="margin: 0; padding-inline-start: 20px; font-size: 10px"
+                >
                   {{#each text}}
                   <li>
                     <span style="margin-right: 3px">{{field}}:</span
@@ -307,7 +310,7 @@
           class="footer__disclaimer"
           style="
             height: 265;
-            flex: 0 1 50%;
+            flex: 0 1 45%;
             padding: 40px 35px 0 25px;
             background-color: #c2c2c2;
             font-size: 11px;
