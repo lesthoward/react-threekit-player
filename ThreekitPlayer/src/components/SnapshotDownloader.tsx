@@ -74,6 +74,16 @@ const SnapshotDownloader = () => {
   };
 
   const handleDownload = () => {
+    const d = new Date();
+    var dateString =
+      ("0" + d.getDate()).slice(-2) +
+      ("0" + (d.getMonth() + 1)).slice(-2) +
+      d.getFullYear() +
+      "_" +
+      ("0" + d.getHours()).slice(-2) +
+      ("0" + d.getMinutes()).slice(-2) +
+      ("0" + d.getSeconds()).slice(-2);
+      
     const watermarkUrl: string | undefined =
       process.env.REACT_APP_WATERMARK_URL;
 
@@ -103,7 +113,7 @@ const SnapshotDownloader = () => {
                   img.src,
                   `${
                     prodName ? prodName + "-" : ""
-                  }snapshot.${SNAPSHOT_DEFAULT_FORMAT}`
+                  }snapshot_${dateString}.${SNAPSHOT_DEFAULT_FORMAT}`
                 );
               }
             );

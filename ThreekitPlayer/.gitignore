@@ -25,4 +25,7 @@ yarn-error.log*
 
 #dev
 /embed
-.parcel-cache
+.parcel-cache 
+
+package-lock.json 
+yarn.lock

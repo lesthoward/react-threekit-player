@@ -85,7 +85,7 @@ const CustomPlayer = () => {
           (window as any).threekitCentury,
           { takeSnapshots: takeSnapshots }
         );
-        (window as any).threekitCentury.setThreekitVariants();
+        (window as any).threekitCentury.addEventListeners()
       }
     }
   }, [hasLoaded]);
